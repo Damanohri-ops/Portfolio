@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daman Ohri — Backend & Full-Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #080B12;
+            --bg-panel: #10151F;
+            --bg-panel-2: #0C1119;
+            --bg-light: #F3F4F7;
+            --bg-card: #FFFFFF;
+            --ink: #10141C;
+            --ink-soft: #59626E;
+            --ink-faint: #939CA8;
+            --line-dark: rgba(255, 255, 255, 0.08);
+            --line-dark-2: rgba(255, 255, 255, 0.14);
+            --line-light: #E4E6EB;
+            --amber: #F2A93C;
+            --amber-soft: rgba(242, 169, 60, 0.14);
+            --teal: #33D6BE;
+            --teal-soft: rgba(51, 214, 190, 0.13);
+            --rose: #E8637A;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--ink);
+            font-family: var(--sans);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        ::selection {
+            background: var(--amber);
+            color: #1A1204;
+        }
+
+        /* ---------- reveal-on-scroll ---------- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+        }
+
+        /* ---------- NAV ---------- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(8, 11, 18, 0.82);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line-dark);
+        }
+
+        nav .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 62px;
+        }
+
+        .logo {
+            font-family: var(--mono);
+            font-weight: 700;
+            color: #fff;
+            font-size: 14.5px;
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .logo .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 8px var(--teal);
+            animation: blink 2.4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.35;
+            }
+        }
+
+        .navlinks {
+            display: flex;
+            gap: 26px;
+            list-style: none;
+            font-family: var(--mono);
+            font-size: 12.5px;
+        }
+
+        .navlinks a {
+            color: #9AA4B2;
+            text-decoration: none;
+            transition: color .2s;
+            position: relative;
+        }
+
+        .navlinks a::before {
+            content: '·';
+            color: var(--amber);
+            margin-right: 6px;
+        }
+
+        .navlinks a:hover {
+            color: var(--amber);
+        }
+
+        .nav-status {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .nav-status .ping {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+        }
+
+        @media (max-width:760px) {
+
+            .navlinks,
+            .nav-status {
+                display: none;
+            }
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            background:
+                radial-gradient(ellipse 900px 520px at 12% -10%, rgba(51, 214, 190, 0.11), transparent),
+                radial-gradient(ellipse 720px 520px at 92% 4%, rgba(242, 169, 60, 0.11), transparent),
+                var(--bg-deep);
+            color: #fff;
+            padding: 80px 0 92px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: radial-gradient(ellipse 800px 500px at 30% 0%, black, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero .wrap {
+            position: relative;
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 22px;
+            height: 1px;
+            background: var(--teal);
+        }
+
+        .hero h1 {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: clamp(30px, 4.6vw, 50px);
+            letter-spacing: -0.015em;
+            line-height: 1.18;
+            max-width: 800px;
+            color: #fff;
+        }
+
+        .hero h1 .accent {
+            color: var(--amber);
+        }
+
+        .hero p.sub {
+            margin-top: 22px;
+            max-width: 580px;
+            color: #A7B0BE;
+            font-size: 16.5px;
+        }
+
+        .hero-meta {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pill {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: #C6CEDA;
+            border: 1px solid var(--line-dark-2);
+            padding: 7px 13px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .hero-ctas {
+            margin-top: 36px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 8px;
+            transition: all .2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--amber);
+            color: #1A1204;
+        }
+
+        .btn-primary:hover {
+            background: #ffb84f;
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            border: 1px solid var(--line-dark-2);
+            color: #fff;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        /* ---- signature: request trace panel ---- */
+        .trace {
+            margin-top: 60px;
+            border: 1px solid var(--line-dark-2);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.025);
+            overflow: hidden;
+        }
+
+        .trace-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--line-dark);
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--ink-faint);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .trace-head .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .trace-head .dots i {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: block;
+            background: var(--line-dark-2);
+        }
+
+        .trace-head .live {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--teal);
+            text-transform: none;
+        }
+
+        .trace-head .live .ping {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 8px var(--teal);
+        }
+
+        .trace-body {
+            padding: 26px 20px 24px;
+            overflow-x: auto;
+        }
+
+        .trace-row {
+            display: flex;
+            align-items: flex-start;
+            min-width: 660px;
+        }
+
+        .node {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100px;
+        }
+
+        .node .box {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            border: 1px solid var(--line-dark-2);
+            background: var(--bg-panel);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .node .box svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .node .label {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            color: #8993A3;
+            text-align: center;
+        }
+
+        .node .ms {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--amber);
+        }
+
+        .node.active .box {
+            border-color: var(--amber);
+            box-shadow: 0 0 0 3px var(--amber-soft);
+        }
+
+        .node.ok .box {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px var(--teal-soft);
+        }
+
+        .connector {
+            flex: 1 1 auto;
+            height: 2px;
+            background: var(--line-dark-2);
+            position: relative;
+            min-width: 24px;
+            margin-top: 27px;
+        }
+
+        .connector .pulse {
+            position: absolute;
+            top: -3px;
+            left: -8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--amber);
+            box-shadow: 0 0 10px var(--amber);
+            animation: travel 3.2s linear infinite;
+        }
+
+        @keyframes travel {
+            0% {
+                left: -8px;
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            95% {
+                opacity: 1;
+            }
+
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        .connector:nth-child(2) .pulse {
+            animation-delay: 0s;
+        }
+
+        .connector:nth-child(4) .pulse {
+            animation-delay: .5s;
+        }
+
+        .connector:nth-child(6) .pulse {
+            animation-delay: 1s;
+        }
+
+        .connector:nth-child(8) .pulse {
+            animation-delay: 1.5s;
+        }
+
+        .connector:nth-child(10) .pulse {
+            animation-delay: 2s;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .connector .pulse {
+                animation: none;
+                display: none;
+            }
+        }
+
+        .trace-foot {
+            border-top: 1px solid var(--line-dark);
+            padding: 12px 20px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--ink-faint);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .trace-foot b {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        /* ---------- SECTION SHELL ---------- */
+        section {
+            padding: 84px 0;
+        }
+
+        .section-head {
+            margin-bottom: 42px;
+            max-width: 640px;
+        }
+
+        .section-eyebrow {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--amber);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: clamp(22px, 2.8vw, 30px);
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+
+        .section-sub {
+            color: var(--ink-soft);
+            margin-top: 12px;
+            font-size: 15px;
+        }
+
+        /* ---------- ABOUT ---------- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 56px;
+            align-items: start;
+        }
+
+        @media (max-width:800px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        .about-grid p {
+            color: var(--ink-soft);
+            font-size: 15.5px;
+            margin-bottom: 16px;
+        }
+
+        .stat-block {
+            border: 1px solid var(--line-light);
+            border-radius: 12px;
+            padding: 20px 22px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-block+.stat-block {
+            margin-top: 12px;
+        }
+
+        .stat-num {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--ink);
+            flex: 0 0 auto;
+            min-width: 60px;
+        }
+
+        .stat-desc {
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+
+        /* ---------- SKILLS ---------- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        @media (max-width:700px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--line-light);
+            border-radius: 12px;
+            padding: 22px;
+            transition: border-color .2s, transform .2s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-2px);
+        }
+
+        .skill-card h3 {
+            font-family: var(--mono);
+            font-size: 13.5px;
+            color: var(--ink);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-card h3 .sq {
+            width: 8px;
+            height: 8px;
+            background: var(--teal);
+            border-radius: 2px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--ink-soft);
+            background: var(--bg-light);
+            border: 1px solid var(--line-light);
+            padding: 6px 10px;
+            border-radius: 6px;
+        }
+
+        /* ---------- EXPERIENCE ---------- */
+        .exp-card {
+            background: var(--bg-panel-2);
+            color: #fff;
+            border-radius: 14px;
+            padding: 34px;
+            display: grid;
+            grid-template-columns: 210px 1fr;
+            gap: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exp-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--amber), var(--teal));
+        }
+
+        @media (max-width:750px) {
+            .exp-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+
+        .exp-role {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .exp-org {
+            color: var(--teal);
+            font-family: var(--mono);
+            font-size: 12.5px;
+            margin-top: 8px;
+        }
+
+        .exp-time {
+            color: #8993A3;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            margin-top: 6px;
+        }
+
+        .exp-list {
+            list-style: none;
+        }
+
+        .exp-list li {
+            position: relative;
+            padding-left: 20px;
+            color: #C1CAD6;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .exp-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--amber);
+        }
+
+        /* ---------- PROJECTS ---------- */
+        .proj-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width:900px) {
+            .proj-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width:620px) {
+            .proj-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .proj-card {
+            background: var(--bg-card);
+            border: 1px solid var(--line-light);
+            border-top: 3px solid var(--teal);
+            border-radius: 10px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform .18s, box-shadow .18s;
+        }
+
+        .proj-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(16, 24, 32, 0.09);
+        }
+
+        .proj-card.wp {
+            border-top-color: var(--amber);
+        }
+
+        .proj-name {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: 15.5px;
+            color: var(--ink);
+        }
+
+        .proj-desc {
+            color: var(--ink-soft);
+            font-size: 13.5px;
+            margin-top: 8px;
+            margin-bottom: 14px;
+            flex-grow: 1;
+        }
+
+        .proj-feat {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+
+        .proj-feat li {
+            font-size: 12.5px;
+            color: var(--ink-soft);
+            padding-left: 14px;
+            position: relative;
+            margin-bottom: 5px;
+        }
+
+        .proj-feat li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--ink-faint);
+        }
+
+        .proj-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .proj-tags .tag {
+            font-size: 10.5px;
+            padding: 4px 8px;
+        }
+
+        .proj-actions {
+            margin-top: 16px;
+        }
+
+        .demo-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--ink);
+            color: #fff;
+            transition: all .2s ease;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            background: var(--teal);
+            color: #08211E;
+        }
+
+        .wp .demo-btn:hover {
+            background: var(--amber);
+            color: #1A1204;
+        }
+
+        /* ---------- EDUCATION / LANG ---------- */
+        .edu-lang-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width:750px) {
+            .edu-lang-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .edu-item {
+            display: flex;
+            gap: 18px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--line-light);
+        }
+
+        .edu-item:last-child {
+            border-bottom: none;
+        }
+
+        .edu-year {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--amber);
+            white-space: nowrap;
+            padding-top: 2px;
+        }
+
+        .edu-name {
+            font-weight: 600;
+            font-size: 14.5px;
+            color: var(--ink);
+        }
+
+        .edu-school {
+            font-size: 13px;
+            color: var(--ink-soft);
+            margin-top: 2px;
+        }
+
+        .lang-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .lang-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border: 1px solid var(--line-light);
+            border-radius: 8px;
+            padding: 14px 18px;
+        }
+
+        .lang-row span {
+            font-family: var(--mono);
+            font-size: 13px;
+        }
+
+        .lang-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .lang-dots i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+            display: block;
+        }
+
+        /* ---------- FOOTER / CONTACT ---------- */
+        footer {
+            background: var(--bg-deep);
+            color: #fff;
+            padding: 76px 0 36px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-inner {
+            text-align: center;
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        footer .section-eyebrow {
+            color: var(--teal);
+        }
+
+        footer h2 {
+            font-family: var(--mono);
+            font-weight: 700;
+            font-size: clamp(22px, 3.2vw, 32px);
+            margin-top: 12px;
+        }
+
+        footer p {
+            color: #A7B0BE;
+            margin-top: 16px;
+            font-size: 15px;
+        }
+
+        footer .loc {
+            margin-top: 26px;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: #8993A3;
+        }
+
+        .footer-bottom {
+            margin-top: 60px;
+            padding-top: 22px;
+            border-top: 1px solid var(--line-dark);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: #5B6577;
+        }
+
+        /* focus states for accessibility */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="wrap">
+            <div class="logo"><span class="dot"></span>daman.ohri</div>
+            <ul class="navlinks">
+                <li><a href="#about">about</a></li>
+                <li><a href="#skills">skills</a></li>
+                <li><a href="#experience">experience</a></li>
+                <li><a href="#projects">projects</a></li>
+                <li><a href="#contact">contact</a></li>
+            </ul>
+            <div class="nav-status"><span class="ping"></span>open to work</div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="wrap">
+            <div class="eyebrow">Node.js · Full-Stack · Real-Time Systems</div>
+            <h1>I build backend systems<br>that stay <span class="accent">up, in sync,</span><br>and in real time.
+            </h1>
+            <p class="sub">Daman Ohri — a full-stack developer from Batala, Punjab, who spends most days in Node.js,
+                Express and Fastify, and the rest wiring up the real-time layer: WebSockets, Socket.IO, MQTT, Redis,
+                and background queues that keep products responsive under load.</p>
+            <div class="hero-meta">
+                <span class="pill">📍 Batala, Punjab, India</span>
+                <span class="pill">3+ yrs experience</span>
+                <span class="pill">6 shipped products</span>
+                <span class="pill">5 WordPress builds</span>
+            </div>
+            <div class="hero-ctas">
+                <a href="#projects" class="btn btn-primary">View Projects →</a>
+                <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+            </div>
+
+            <div class="trace reveal">
+                <div class="trace-head">
+                    <span>request_trace.log</span>
+                    <div class="dots"><i></i><i></i><i></i></div>
+                </div>
+                <div class="trace-body">
+                    <div class="trace-row">
+                        <div class="node active">
+                            <div class="box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#F2A93C" stroke-width="1.6">
+                                    <rect x="3" y="4" width="18" height="14" rx="2" />
+                                    <path d="M8 21h8M12 18v3" />
+                                </svg>
+                            </div>
+                            <div class="label">Client</div>
+                            <div class="ms">t+0ms</div>
+                        </div>
+                        <div class="connector">
+                            <div class="pulse"></div>
+                        </div>
+                        <div class="node">
+                            <div class="box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#AEB8C6" stroke-width="1.6">
+                                    <path d="M4 6h16M4 12h16M4 18h10" />
+                                </svg>
+                            </div>
+                            <div class="label">Express /<br>Fastify</div>
+                            <div class="ms">4ms</div>
+                        </div>
+                        <div class="connector">
+                            <div class="pulse"></div>
+                        </div>
+                        <div class="node">
+                            <div class="box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#AEB8C6" stroke-width="1.6">
+                                    <path d="M12 3l8 4v10l-8 4-8-4V7l8-4z" />
+                                </svg>
+                            </div>
+                            <div class="label">Redis<br>Cache</div>
+                            <div class="ms">1ms</div>
+                        </div>
+                        <div class="connector">
+                            <div class="pulse"></div>
+                        </div>
+                        <div class="node">
+                            <div class="box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#AEB8C6" stroke-width="1.6">
+                                    <ellipse cx="12" cy="6" rx="8" ry="3" />
+                                    <path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6" />
+                                    <path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" />
+                                </svg>
+                            </div>
+                            <div class="label">MySQL /<br>Mongo</div>
+                            <div class="ms">7ms</div>
+                        </div>
+                        <div class="connector">
+                            <div class="pulse"></div>
+                        </div>
+                        <div class="node">
+                            <div class="box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#AEB8C6" stroke-width="1.6">
+                                    <path
+                                        d="M4 10a8 8 0 0 1 16 0M4 10v4a2 2 0 0 0 2 2h1v-6H5a1 1 0 0 0-1 1zM20 10v4a2 2 0 0 1-2 2h-1v-6h1a1 1 0 0 1 1 1z" />
+                                </svg>
+                            </div>
+                            <div class="label">Socket.IO<br>Broadcast</div>
+                            <div class="ms">2ms</div>
+                        </div>
+                        <div class="connector">
+                            <div class="pulse"></div>
+                        </div>
+                        <div class="node ok">
+                            <div class="box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#34D1BF" stroke-width="1.6">
+                                    <path d="M5 12l5 5L20 7" />
+                                </svg>
+                            </div>
+                            <div class="label">Response</div>
+                            <div class="ms">200 OK</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trace-foot">
+                    <span>total round-trip <b>~14ms</b></span>
+                    <span id="sessionClock">session uptime 00:00:00</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="wrap about-grid">
+            <div class="reveal">
+                <div class="section-eyebrow">About</div>
+                <div class="section-title">Backend-first, full-stack by necessity.</div>
+                <p style="margin-top:20px;">Over the past three years at RichestSoft, I've moved between building
+                    scalable APIs and shipping the interfaces that sit on top of them — Node.js and Fastify on one
+                    side, React, React Native and Vue on the other, whichever the product actually needs.</p>
+                <p>What I keep coming back to is the real-time layer: queues that don't fall over under load, caching
+                    that actually earns its complexity, and sockets that stay connected. I've also built and
+                    customized WordPress sites where a full custom stack wasn't the right call — not every project
+                    needs to be reinvented from scratch.</p>
+            </div>
+            <div class="reveal">
+                <div class="stat-block">
+                    <div class="stat-num">6</div>
+                    <div class="stat-desc">Production platforms shipped — recruitment, ride-hailing, fleet
+                        management, rentals, social and chat</div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-num">10+</div>
+                    <div class="stat-desc">Core technologies in active daily use, from Prisma to MQTT</div>
+                </div>
+                <div class="stat-block">
+                    <div class="stat-num">3+ yrs</div>
+                    <div class="stat-desc">Building and maintaining backend systems in production</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills"
+        style="background:var(--bg-card);border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light);">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div class="section-eyebrow">Skills</div>
+                <div class="section-title">The stack, end to end</div>
+                <p class="section-sub">From the API layer down to the database, and the interfaces users actually
+                    touch.</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card reveal">
+                    <h3><span class="sq"></span>Backend</h3>
+                    <div class="tag-row">
+                        <span class="tag">Node.js</span><span class="tag">Express.js</span><span
+                            class="tag">Fastify</span><span class="tag">Prisma</span><span class="tag">BullMQ</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <h3><span class="sq"></span>Frontend & Mobile</h3>
+                    <div class="tag-row">
+                        <span class="tag">React.js</span><span class="tag">React Native</span><span
+                            class="tag">Vue.js</span><span class="tag">Tailwind</span><span
+                            class="tag">Vuetify</span><span class="tag">Vuex</span><span class="tag">Pinia</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <h3><span class="sq"></span>CMS & Websites</h3>
+                    <div class="tag-row">
+                        <span class="tag">WordPress</span><span class="tag">WooCommerce</span><span
+                            class="tag">Custom Themes</span><span class="tag">Plugin Development</span><span
+                            class="tag">Elementor</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <h3><span class="sq"></span>Databases</h3>
+                    <div class="tag-row">
+                        <span class="tag">SQL</span><span class="tag">MySQL</span><span
+                            class="tag">PostgreSQL</span><span class="tag">MongoDB</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <h3><span class="sq"></span>Real-Time & Messaging</h3>
+                    <div class="tag-row">
+                        <span class="tag">WebSockets</span><span class="tag">Socket.IO</span><span
+                            class="tag">MQTT</span>
+                    </div>
+                </div>
+                <div class="skill-card reveal">
+                    <h3><span class="sq"></span>Cloud, DevOps & Tools</h3>
+                    <div class="tag-row">
+                        <span class="tag">Firebase</span><span class="tag">AWS</span><span
+                            class="tag">Docker</span><span class="tag">Redis</span><span class="tag">Git</span><span
+                            class="tag">REST APIs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div class="section-eyebrow">Experience</div>
+                <div class="section-title">Where I've been building</div>
+            </div>
+            <div class="exp-card reveal">
+                <div>
+                    <div class="exp-role">Full Stack Developer</div>
+                    <div class="exp-org">RichestSoft</div>
+                    <div class="exp-time">Punjab, India<br>2022 — Present</div>
+                </div>
+                <ul class="exp-list">
+                    <li>Develop scalable backend services using Node.js, Express.js, Fastify, Prisma, and BullMQ</li>
+                    <li>Design and maintain RESTful APIs for web and mobile applications</li>
+                    <li>Build interactive frontend and mobile-ready components using React.js, React Native, Vue.js,
+                        Tailwind, Vuetify, Vuex, and Pinia</li>
+                    <li>Build and customize WordPress sites, themes, and plugins for client and business needs</li>
+                    <li>Design and manage databases using SQL, MySQL, PostgreSQL, MongoDB, and Prisma</li>
+                    <li>Implement Redis caching and queue-based background processing to improve performance and
+                        reliability</li>
+                    <li>Build real-time communication systems using WebSockets, Socket.IO, and MQTT</li>
+                    <li>Collaborate across frontend and backend teams for full-stack feature delivery</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects"
+        style="background:var(--bg-card);border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light);">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div class="section-eyebrow">Projects</div>
+                <div class="section-title">Six products, six different problems</div>
+                <p class="section-sub">Hiring, transport, property, and social — the backend patterns underneath,
+                    reused and adapted.</p>
+            </div>
+            <div class="proj-grid">
+
+                <div class="proj-card reveal">
+                    <div class="proj-name">Hire Heroes</div>
+                    <div class="proj-desc">Recruitment and hiring platform that streamlines the job application and
+                        candidate management process.</div>
+                    <ul class="proj-feat">
+                        <li>Job posting and application management</li>
+                        <li>Employer and candidate dashboards</li>
+                        <li>Secure REST API integration</li>
+                    </ul>
+                    <div class="proj-tags">
+                        <span class="tag">Node.js</span><span class="tag">Express</span><span
+                            class="tag">MongoDB</span><span class="tag">Vue.js</span><span
+                            class="tag">React</span><span class="tag">Tailwind</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://app.hireheroes.com/login" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card reveal">
+                    <div class="proj-name">Droob Taxi</div>
+                    <div class="proj-desc">Taxi booking platform for requesting rides and managing driver assignments
+                        in real time.</div>
+                    <ul class="proj-feat">
+                        <li>Ride booking system</li>
+                        <li>Driver allocation and ride tracking</li>
+                        <li>Real-time ride updates</li>
+                    </ul>
+                    <div class="proj-tags">
+                        <span class="tag">Node.js</span><span class="tag">Fastify</span><span
+                            class="tag">MySQL</span><span class="tag">Redis</span><span class="tag">BullMQ</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://app.hireheroes.com/login" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card reveal">
+                    <div class="proj-name">Drivex</div>
+                    <div class="proj-desc">Transportation and driver management system built for efficient fleet
+                        operations.</div>
+                    <ul class="proj-feat">
+                        <li>Driver and vehicle management</li>
+                        <li>Trip tracking and operations</li>
+                        <li>Backend service optimization</li>
+                    </ul>
+                    <div class="proj-tags">
+                        <span class="tag">Node.js</span><span class="tag">Express</span><span
+                            class="tag">PostgreSQL</span><span class="tag">Prisma</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://app.hireheroes.com/login" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card reveal">
+                    <div class="proj-name">RentPotential</div>
+                    <div class="proj-desc">Property rental platform that lets users list and search rental
+                        properties.</div>
+                    <ul class="proj-feat">
+                        <li>Property listing and search</li>
+                        <li>User management</li>
+                        <li>Secure API services</li>
+                    </ul>
+                    <div class="proj-tags">
+                        <span class="tag">Node.js</span><span class="tag">Express</span><span
+                            class="tag">MongoDB</span><span class="tag">Vue.js</span><span
+                            class="tag">Firebase</span><span class="tag">Vuetify</span><span class="tag">Pinia</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://app.hireheroes.com/login" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card reveal">
+                    <div class="proj-name">Whoesmagnic</div>
+                    <div class="proj-desc">Social networking application built for community interaction and user
+                        engagement.</div>
+                    <ul class="proj-feat">
+                        <li>User profile management</li>
+                        <li>Social interaction features</li>
+                        <li>Real-time communication</li>
+                    </ul>
+                    <div class="proj-tags">
+                        <span class="tag">Node.js</span><span class="tag">MongoDB</span><span
+                            class="tag">WebSockets</span><span class="tag">Socket.IO</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://app.hireheroes.com/login" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card reveal">
+                    <div class="proj-name">PlayTimeChat</div>
+                    <div class="proj-desc">Real-time chat platform enabling instant messaging between users.</div>
+                    <ul class="proj-feat">
+                        <li>Real-time messaging</li>
+                        <li>WebSocket communication</li>
+                        <li>Message delivery optimization</li>
+                    </ul>
+                    <div class="proj-tags">
+                        <span class="tag">Node.js</span><span class="tag">WebSockets</span><span
+                            class="tag">Socket.IO</span><span class="tag">Redis</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://www.playtimechat.com/" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="wordpress-projects">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <div class="section-eyebrow">WordPress Projects</div>
+                <div class="section-title">Business websites built with WordPress</div>
+                <p class="section-sub">Custom WordPress development, theme customization, performance optimization,
+                    responsive design, and business-focused websites.</p>
+            </div>
+
+            <div class="proj-grid">
+
+                <div class="proj-card wp reveal">
+                    <div class="proj-name">INFYRAS</div>
+                    <div class="proj-desc">Web development agency website built on WordPress with service pages,
+                        lead generation forms, portfolio showcase, and SEO-focused structure.</div>
+                    <div class="proj-tags">
+                        <span class="tag">WordPress</span><span class="tag">Elementor</span><span
+                            class="tag">SEO</span><span class="tag">Responsive</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://infyras.com/" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card wp reveal">
+                    <div class="proj-name">Factory360</div>
+                    <div class="proj-desc">Corporate website developed with WordPress featuring custom layouts,
+                        optimized performance, and mobile-friendly design.</div>
+                    <div class="proj-tags">
+                        <span class="tag">WordPress</span><span class="tag">Custom Theme</span><span
+                            class="tag">Responsive</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://factory360.com/" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card wp reveal">
+                    <div class="proj-name">SNE News</div>
+                    <div class="proj-desc">News and media platform built on WordPress with article management,
+                        content publishing workflows, and responsive layouts.</div>
+                    <div class="proj-tags">
+                        <span class="tag">WordPress</span><span class="tag">News Portal</span><span
+                            class="tag">SEO</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://snenews.com/" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card wp reveal">
+                    <div class="proj-name">Bajwa Construction</div>
+                    <div class="proj-desc">Construction company website showcasing services, projects, contact
+                        forms, and responsive business-focused design.</div>
+                    <div class="proj-tags">
+                        <span class="tag">WordPress</span><span class="tag">Business Website</span><span
+                            class="tag">Elementor</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://bajwaconstruction.com/" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+                <div class="proj-card wp reveal">
+                    <div class="proj-name">Shegerian Conniff</div>
+                    <div class="proj-desc">Professional legal services website developed in WordPress with custom
+                        pages, lead generation forms, and responsive design.</div>
+                    <div class="proj-tags">
+                        <span class="tag">WordPress</span><span class="tag">Professional Services</span><span
+                            class="tag">Responsive</span>
+                    </div>
+                    <div class="proj-actions">
+                        <a href="https://shegerianconniff.com/" target="_blank" rel="noopener noreferrer"
+                            class="demo-btn">Live Demo ↗</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="education" style="background:var(--bg-card);border-top:1px solid var(--line-light);">
+        <div class="wrap edu-lang-grid">
+            <div class="reveal">
+                <div class="section-eyebrow">Education</div>
+                <div class="section-title" style="margin-bottom:20px;">Academic background</div>
+                <div class="edu-item">
+                    <div class="edu-year">2018—21</div>
+                    <div>
+                        <div class="edu-name">Bachelor of Computer Applications (BCA)</div>
+                        <div class="edu-school">Baring Union Christian College, Batala</div>
+                    </div>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-year">2017—18</div>
+                    <div>
+                        <div class="edu-name">Senior Secondary (XII)</div>
+                        <div class="edu-school">Batala</div>
+                    </div>
+                </div>
+                <div class="edu-item">
+                    <div class="edu-year">2015—16</div>
+                    <div>
+                        <div class="edu-name">Secondary (X)</div>
+                        <div class="edu-school">F.S Maan Silver Creek School, Batala</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal">
+                <div class="section-eyebrow">Languages</div>
+                <div class="section-title" style="margin-bottom:20px;">Spoken</div>
+                <div class="lang-list">
+                    <div class="lang-row"><span>Punjabi</span>
+                        <div class="lang-dots"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                    <div class="lang-row"><span>Hindi</span>
+                        <div class="lang-dots"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                    <div class="lang-row"><span>English</span>
+                        <div class="lang-dots"><i></i><i></i><i></i><i></i><i></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="wrap footer-inner reveal">
+            <div class="section-eyebrow">Contact</div>
+            <h2>Building something that needs a solid backend?</h2>
+            <p>Open to full-time roles and freelance projects — Node.js APIs, real-time systems, or full-stack builds
+                end to end.</p>
+            <div class="loc">📍 Batala, Punjab, India</div>
+        </div>
+        <div class="wrap footer-bottom">
+            <span>© 2026 Daman Ohri</span>
+            <span>Node.js · React · React Native · WordPress</span>
+        </div>
+    </footer>
+
+    <script>
+        // scroll reveal
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in');
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        } else {
+            document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+        }
+
+        // session uptime ticker (a small wink at the real-time systems theme)
+        const start = Date.now();
+        const clockEl = document.getElementById('sessionClock');
+        if (clockEl) {
+            setInterval(() => {
+                const s = Math.floor((Date.now() - start) / 1000);
+                const hh = String(Math.floor(s / 3600)).padStart(2, '0');
+                const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+                const ss = String(s % 60).padStart(2, '0');
+                clockEl.textContent = `session uptime ${hh}:${mm}:${ss}`;
+            }, 1000);
+        }
+    </script>
+
+</body>
+
+</html>
