@@ -2418,13 +2418,15 @@
             const status = document.getElementById('cfStatus');
             if (!form) return;
             const DEST_EMAIL = 'daman.ohri1999@gmail.com';
+            const WEB3FORMS_KEY = 'PASTE-YOUR-ACCESS-KEY-HERE'; // get free key at https://web3forms.com
 
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = form.name.value.trim();
                 const email = form.email.value.trim();
                 const subject = form.subject.value.trim() || `Portfolio inquiry from ${name}`;
                 const message = form.message.value.trim();
+                const submitBtn = form.querySelector('.cf-submit');
 
                 if (!name || !email || !message) {
                     status.textContent = 'Please fill in name, email, and message.';
@@ -2432,12 +2434,33 @@
                     return;
                 }
 
-                const body = `${message}\n\n— ${name} (${email})`;
-                const mailto = `mailto:${DEST_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                window.location.href = mailto;
-
                 status.classList.remove('error');
-                status.textContent = 'Opening your email client…';
+                status.textContent = 'Sending…';
+                submitBtn.disabled = true;
+
+                try {
+                    const res = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                        body: JSON.stringify({
+                            access_key: WEB3FORMS_KEY,
+                            to_email: DEST_EMAIL,
+                            name, email, subject, message
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        status.textContent = 'Message sent — thanks! I\'ll get back to you soon.';
+                        form.reset();
+                    } else {
+                        throw new Error(data.message || 'Send failed');
+                    }
+                } catch (err) {
+                    status.classList.add('error');
+                    status.textContent = 'Could not send. Please try again or email directly.';
+                } finally {
+                    submitBtn.disabled = false;
+                }
             });
         })();
 
